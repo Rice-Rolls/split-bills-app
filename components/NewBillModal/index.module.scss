@@ -1,0 +1,17 @@
+.billName{
+  display: flex;
+  .avatar{
+    margin-right: 12px;
+    flex: 1 0 auto;
+  }
+}
+
+.participants {
+  display: flex;
+  align-items: baseline;
+  .participantName {
+    flex: 1;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}
