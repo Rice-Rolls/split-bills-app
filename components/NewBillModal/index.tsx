@@ -5,7 +5,9 @@ import styles from './index.module.scss'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { FormValues } from '../../types';
+import { Bill } from 'types/';
+import { useAppDispatch } from 'hooks/reducer';
+import { updateBill } from 'reducer/bill';
 
 interface Props {
 	type?: 'new' | 'edit';
@@ -16,17 +18,19 @@ interface Props {
 
 const NewBillModal = (props: Props) => {
 	const { visible, handleOk, handleCancel, type = 'new' } = props
-	const [formValues, setFormValues] = useState<Partial<FormValues>>({});
-	const [form] = useForm<FormValues>()
+	const [formValues, setFormValues] = useState<Partial<Bill>>({});
+	const [form] = useForm<Bill>()
 	const router = useRouter()
+	const dispatch = useAppDispatch()
 	const onOk = () => {
 		handleOk()
 		// set current formValues to localStorage
 		const id = Math.floor(Math.random() * Math.pow(10, 5)).toString()
-		localStorage.setItem(id, JSON.stringify(formValues))
+		
+		dispatch(updateBill({ id, bill: formValues as Bill }))
 		router.push(`/bill?id=${id}`)
 	}
-	const handleValuesChange = (changedValues: any, allValues: FormValues) => {
+	const handleValuesChange = (changedValues: any, allValues: Bill) => {
 		setFormValues(allValues)
 	}
 

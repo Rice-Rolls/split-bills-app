@@ -1,31 +1,37 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
-import { Expense, FormValues } from '../../types'
+import { useEffect, useMemo, useState } from 'react'
+import { Expense, Bill } from 'types/'
 import Link from 'next/link'
 import styles from './index.module.scss'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import { Avatar, Button, List } from 'antd'
 import Meta from 'antd/lib/card/Meta'
-import { AddNewExpense } from '../../components'
+import { AddNewExpense } from 'components'
+import { useAppDispatch, useAppSelector } from 'hooks/reducer'
+import { setExpense } from 'reducer/expense'
+import { expenseTypeList } from 'constants/index'
+import ExpenseInfo from 'components/Modals/ExpenseInfo'
 
 
 const Home: NextPage = () => {
   const router = useRouter()
   const { id } = router.query as { id: string }
+  const dispatch = useAppDispatch();
+  const { bills } = useAppSelector(state => state.billStore)
+  const { expenses } = useAppSelector(state => state.expenseStore)
   
-  const [expenseList, setExpenseList] = useState<Expense[]>([]);
-
-  const formValues: FormValues = useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem(id) || '{}')
-    } catch (error) {
-      return {}
-    }
+  useEffect(() => {
+    const expenses = JSON.parse(localStorage.getItem(id) || '[]')
+    dispatch(setExpense(expenses))
   }, [id])
 
-  if (!formValues) {
+  const bill: Bill = useMemo(() => {
+    return bills[id]
+  }, [id])
+
+  if (!bill) {
     return (
       <div>
         <main>
@@ -40,7 +46,8 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>{formValues?.billName}</title>
+        <title>{bill?.billName}</title>
+        <meta name="split-bill" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
@@ -52,28 +59,28 @@ const Home: NextPage = () => {
             <Button>编辑账单信息</Button>
           </div>
         </div>
-        <Meta
-          className={styles.billInfo}
-          avatar={<Avatar size={'large'}>{formValues.billName?.slice(0, 1)}</Avatar>}
-          title={formValues.billName}
-        />
+        <div className={styles.billInfo}>
+          <Avatar size={'large'}>{bill.billName?.slice(0, 1)}</Avatar>
+          <h3 className={styles.billName}>{bill.billName}</h3>
+        </div>
+        <h3>账单列表</h3>
         <List
           className={styles.expenseList}
           itemLayout="horizontal"
-          dataSource={expenseList}
+          dataSource={expenses}
           renderItem={item => (
             <List.Item
-              actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
+              actions={[<ExpenseInfo expense={item} bill={bill} id={id} />]}
             >
               <List.Item.Meta
-                avatar={<Avatar />}
+                avatar={<Avatar shape="square" icon={expenseTypeList.find(item => item.type === item.type)?.icon} />}
                 title={item.title}
                 description={item.description}
               />
             </List.Item>
           )}
         />
-        <AddNewExpense />
+        <AddNewExpense id={id} bill={bill} />
       </main>
     </div>
   )

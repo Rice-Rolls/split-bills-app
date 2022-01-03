@@ -1,0 +1,16 @@
+.addNewExpense {
+  position: absolute;
+  right: 20px;
+  bottom: 100px;
+}
+
+.expenseInfo{
+  display: flex;
+  .expenseInfoForm{
+    flex: 1;
+    margin-left: 10px;
+    :global(.ant-form-item){
+      margin-bottom: 0;
+    }
+  }
+}

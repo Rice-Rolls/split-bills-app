@@ -1,4 +1,7 @@
 .main {
+  .expenseList{
+    width: 100%;
+  }
   padding: 20px;
   .header{
     display: flex;
@@ -8,6 +11,11 @@
     }
   }
   .billInfo{
-    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    .billName{
+      margin-left: 10px;
+    }
   }
 }

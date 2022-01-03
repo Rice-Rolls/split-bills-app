@@ -1,5 +1,5 @@
 import NewBillModal from "./NewBillModal";
-import AddNewExpense from "./AddNewExpense";
+import AddNewExpense from "./Modals/AddNewExpense";
 
 export {
   NewBillModal,

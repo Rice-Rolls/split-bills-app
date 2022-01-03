@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.ant-form .ant-form-item{
+  margin-bottom: 0px;
+}
+
+.ant-form .ant-form-item .ant-form-item-label{
+  padding: 0 0 4px;
+}
