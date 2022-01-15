@@ -22,7 +22,6 @@ interface Props {
 const AddNewExpense = (props: Props) => {
   const { id, bill } = props;
   const [visible, open, close] = useModalHooks(false);
-  const [form] = useForm<Expense>();
 
   const addNewExpense = () => {
     open();
@@ -38,7 +37,7 @@ const AddNewExpense = (props: Props) => {
         icon={<PlusOutlined />}
         size={"large"}
       />
-      <ExpenseModal form={form} visible={visible} open={open} close={close} id={id} bill={bill} />
+      <ExpenseModal visible={visible} open={open} close={close} id={id} bill={bill} />
     </>
   );
 };

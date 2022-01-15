@@ -8,28 +8,27 @@ import styles from './index.module.scss'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import { Avatar, Button, List } from 'antd'
 import Meta from 'antd/lib/card/Meta'
-import { AddNewExpense } from 'components'
+import { AddNewExpense, NewBill } from 'components'
 import { useAppDispatch, useAppSelector } from 'hooks/reducer'
 import { setExpense } from 'reducer/expense'
 import { expenseTypeList } from 'constants/index'
 import ExpenseInfo from 'components/Modals/ExpenseInfo'
+import GetBill from 'components/Modals/GetBill'
 
 
 const Home: NextPage = () => {
   const router = useRouter()
-  const { id } = router.query as { id: string }
   const dispatch = useAppDispatch();
-  const { bills } = useAppSelector(state => state.billStore)
   const { expenses } = useAppSelector(state => state.expenseStore)
-  
+  const { id } = router.query as { id: string }
+  const { bills } = useAppSelector(state => state.billStore)
+  const bill = bills[id];
+
   useEffect(() => {
     const expenses = JSON.parse(localStorage.getItem(id) || '[]')
     dispatch(setExpense(expenses))
   }, [id])
 
-  const bill: Bill = useMemo(() => {
-    return bills[id]
-  }, [id])
 
   if (!bill) {
     return (
@@ -44,7 +43,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Head>
         <title>{bill?.billName}</title>
         <meta name="split-bill" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
@@ -56,7 +55,7 @@ const Home: NextPage = () => {
             <MenuFoldOutlined className={styles.menuIcon} />
           </div>
           <div className={styles.editBill}>
-            <Button>编辑账单信息</Button>
+            <NewBill type="edit" />
           </div>
         </div>
         <div className={styles.billInfo}>
@@ -82,6 +81,7 @@ const Home: NextPage = () => {
         />
         <AddNewExpense id={id} bill={bill} />
       </main>
+      <GetBill />
     </div>
   )
 }

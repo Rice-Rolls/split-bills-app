@@ -67,14 +67,15 @@ const ExpenseModal = (props: Props) => {
   const onConfirm = async () => {
     try {
       await form.validateFields();
-      const expense = form.getFieldsValue();
+      const currentExpense = form.getFieldsValue();
       dispatch(
         updateExpense({
           id,
           expense: {
-            ...expense,
+            ...currentExpense,
             type: expenseType.type,
           },
+          operation: expense ? 'update' : 'add'
         })
       );
       close();
@@ -103,6 +104,8 @@ const ExpenseModal = (props: Props) => {
     }
   }, [expense])
 
+  const expenseId = Math.floor(Math.random() * Math.pow(10, 5)).toString()
+
   return (
     <Modal
       title={expense ? "开销详情" : "添加新的开销"}
@@ -111,6 +114,9 @@ const ExpenseModal = (props: Props) => {
       onCancel={close}
     >
       <Form<Expense> form={form}>
+        <Form.Item hidden name="id" initialValue={expenseId}>
+          <Input disabled />
+        </Form.Item>
         <div className={styles.expenseInfo}>
           <Dropdown overlay={menu}>
             <Avatar size={64} shape="square" icon={expenseType.icon} />
@@ -137,7 +143,7 @@ const ExpenseModal = (props: Props) => {
             </Form.Item>
           </div>
         </div>
-        <Form.Item label="主要收款人" name="target">
+        <Form.Item label="付款人" name="payer">
           <Select
             options={bill.participants.map((item) => ({
               key: item.name,

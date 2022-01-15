@@ -4,8 +4,9 @@ import {
   CoffeeOutlined,
   ShopOutlined,
 } from "@ant-design/icons";
+import { ExpenseType } from "types";
 
-export const expenseTypeList = [
+export const expenseTypeList: ExpenseType[] = [
   {
     type: "eating",
     text: "餐饮",

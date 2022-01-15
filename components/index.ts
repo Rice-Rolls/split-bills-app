@@ -1,7 +1,7 @@
-import NewBillModal from "./NewBillModal";
+import NewBill from "./Modals/NewBill";
 import AddNewExpense from "./Modals/AddNewExpense";
 
 export {
-  NewBillModal,
+  NewBill,
   AddNewExpense
 }

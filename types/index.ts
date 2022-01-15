@@ -5,6 +5,7 @@ export interface Bill {
 }
 
 export interface Expense {
+  id: number;
   total: number;
   title: string;
   description?: string;

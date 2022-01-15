@@ -3,11 +3,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from 'styles/Home.module.css'
-import { NewBillModal } from 'components/index'
-import { useState } from 'react'
 import useModalHooks from 'hooks/useModal'
 import { useAppSelector } from 'hooks/reducer'
 import BillItem from 'components/BillItem'
+import { NewBill } from 'components'
 
 const Home: NextPage = () => {
   const [visible, open, close] = useModalHooks(false)
@@ -32,12 +31,7 @@ const Home: NextPage = () => {
             )
           }}
         />
-        <Button onClick={open}>新建账单</Button>
-        <NewBillModal
-          visible={visible}
-          handleOk={open}
-          handleCancel={close}
-        /> 
+        <NewBill type="new" />
       </main>
     </div>
   )

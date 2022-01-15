@@ -1,21 +1,31 @@
-.main {
-  .expenseList{
+.wrapper{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .main {
+    flex: 1;
+    .expenseList{
+      width: 100%;
+    }
+    padding: 20px;
+    .header{
+      display: flex;
+      justify-content: space-between;
+      .menuIcon{
+        font-size: 32px;
+      }
+    }
+    .billInfo{
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      .billName{
+        margin-left: 10px;
+      }
+    }
+  }
+  .billButton{
     width: 100%;
-  }
-  padding: 20px;
-  .header{
-    display: flex;
-    justify-content: space-between;
-    .menuIcon{
-      font-size: 32px;
-    }
-  }
-  .billInfo{
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    .billName{
-      margin-left: 10px;
-    }
+    margin-bottom: 8px;
   }
 }
