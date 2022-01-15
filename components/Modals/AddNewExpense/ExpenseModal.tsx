@@ -1,5 +1,4 @@
 import { Form, Dropdown, Avatar, Input, Select, Menu, Modal } from "antd";
-import form, { FormInstance } from "antd/lib/form";
 import { useForm } from "antd/lib/form/Form";
 import { expenseTypeList } from "constants/index";
 import { useAppDispatch } from "hooks/reducer";
@@ -143,7 +142,7 @@ const ExpenseModal = (props: Props) => {
             </Form.Item>
           </div>
         </div>
-        <Form.Item label="付款人" name="payer">
+        <Form.Item label="付款人" name="payer" required>
           <Select
             options={bill.participants.map((item) => ({
               key: item.name,

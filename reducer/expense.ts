@@ -38,7 +38,7 @@ export const expenseReducer = createSlice({
             }
             break;
           case 'remove':
-            expenses = expenses.filter(item => item.id !== expenseId)
+            expenses = expenses.filter(item => Number(item.id) !== Number(expenseId))
             break;
           default:
             expenses = [...expenses, expense]
