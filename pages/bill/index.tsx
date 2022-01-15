@@ -69,7 +69,7 @@ const Home: NextPage = () => {
           dataSource={expenses}
           renderItem={item => (
             <List.Item
-              actions={[<ExpenseInfo expense={item} bill={bill} id={id} />]}
+              actions={[<ExpenseInfo key={item.id} expense={item} bill={bill} id={id} />]}
             >
               <List.Item.Meta
                 avatar={<Avatar shape="square" icon={expenseTypeList.find(item => item.type === item.type)?.icon} />}

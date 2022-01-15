@@ -1,7 +1,7 @@
 const addFloatValue = (value1: number, value2: number) => {
   let times = Math.max(`${value1}`.split('.')[1]?.length ?? 0, `${value2}`.split('.')[1]?.length ?? 0);
   if(times === 0) return value1 + value2;
-  return Number((parseFloat(value1) + parseFloat(value2)).toFixed(times))
+  return Number((parseFloat(value1 as any) + parseFloat(value2 as any)).toFixed(times))
 }
 
 export const countBill = (bills: Record<string, number>, target?: string) => {

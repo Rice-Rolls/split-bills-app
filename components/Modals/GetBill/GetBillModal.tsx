@@ -50,9 +50,10 @@ const GetBillModal = (props: Props) => {
         <Switch checked={useTarget} onChange={setUseTarget} />
       </Form.Item>
       {lastBill.map(item => {
+        const { debtor, receiver, pay } = item;
         return (
-          <div>
-            <Tag>{item.debtor}</Tag>支付给 <Tag>{item.receiver}</Tag>{item.pay} 元
+          <div key={`${debtor}-${receiver}-${pay}`}>
+            <Tag>{debtor}</Tag>支付给 <Tag>{receiver}</Tag>{pay} 元
           </div>
         )
       })}
