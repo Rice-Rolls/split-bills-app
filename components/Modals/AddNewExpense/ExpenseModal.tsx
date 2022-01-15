@@ -1,4 +1,5 @@
 import { Form, Dropdown, Avatar, Input, Select, Menu, Modal } from "antd";
+import NP from 'number-precision';
 import { useForm } from "antd/lib/form/Form";
 import { expenseTypeList } from "constants/index";
 import { useAppDispatch } from "hooks/reducer";
@@ -29,7 +30,7 @@ const ExpenseModal = (props: Props) => {
     const per = formValue.per;
     const total = per
       ? Object.values(per).reduce(
-          (pre, current) => Number(pre) + Number(current),
+          (pre, current) => NP.plus(pre, current),
           0
         )
       : 0;
@@ -57,7 +58,7 @@ const ExpenseModal = (props: Props) => {
     participants.map((item) => {
       form.setFieldsValue({
         per: {
-          [item.name]: value / participants.length,
+          [item.name]: NP.divide(value, participants.length),
         },
       });
     });

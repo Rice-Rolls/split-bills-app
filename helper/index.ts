@@ -1,8 +1,4 @@
-const addFloatValue = (value1: number, value2: number) => {
-  let times = Math.max(`${value1}`.split('.')[1]?.length ?? 0, `${value2}`.split('.')[1]?.length ?? 0);
-  if(times === 0) return value1 + value2;
-  return Number((parseFloat(value1 as any) + parseFloat(value2 as any)).toFixed(times))
-}
+import NP from 'number-precision';
 
 export const countBill = (bills: Record<string, number>, target?: string) => {
   const participants = Object.keys(bills)
@@ -10,7 +6,7 @@ export const countBill = (bills: Record<string, number>, target?: string) => {
   const receivers: string[] = [];
   const currBills: Record<string, number> = {};
   const lastBills = [];
-  const total = Object.values(bills).reduce((prev, curr) => addFloatValue(prev, curr), 0)
+  const total = Object.values(bills).reduce((prev, curr) => NP.plus(prev, curr), 0)
 
   const mean = Number((total / participants.length).toFixed(2));
   participants.map(item => {
@@ -19,7 +15,7 @@ export const countBill = (bills: Record<string, number>, target?: string) => {
     } else {
       receivers.push(item)
     }
-    currBills[item] = addFloatValue(mean, -bills[item]);
+    currBills[item] = NP.plus(mean, -bills[item]);
   })
 
   if(target) {
@@ -27,7 +23,7 @@ export const countBill = (bills: Record<string, number>, target?: string) => {
       const pay = currBills[debtor];
       lastBills.push({ debtor, pay, receiver: target})
       currBills[debtor] = 0;
-      currBills[target] = addFloatValue(currBills[target], pay);
+      currBills[target] = NP.plus(currBills[target], pay);
     })
     debtors.push(target)
   }
@@ -47,8 +43,8 @@ export const countBill = (bills: Record<string, number>, target?: string) => {
               } else {
                   pay = Math.abs(receiverBill)
               }
-              currBills[debtor] = addFloatValue(currBills[debtor], -pay);
-              receiverBill = addFloatValue(receiverBill, pay);
+              currBills[debtor] = NP.plus(currBills[debtor], -pay);
+              receiverBill = NP.plus(receiverBill, pay);
               lastBills.push({debtor, receiver, pay})
           }
           dIndex++;
