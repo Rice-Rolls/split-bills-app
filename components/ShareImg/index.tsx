@@ -7,8 +7,8 @@ interface Props {
 
 const ShareImg = (props: Props) => {
   const { container } = props;
-  if(!container.current) return null;
   const [imgUrl, setImgUrl] = React.useState('');
+  if(!container.current) return null;
   html2canvas(container.current).then(canvas => {
     const img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     setImgUrl(img)
