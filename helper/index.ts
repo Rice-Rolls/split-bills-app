@@ -20,12 +20,16 @@ export const countBill = (bills: Record<string, number>, target?: string) => {
 
   if(target) {
     debtors.map((debtor) => {
-      const pay = currBills[debtor];
-      lastBills.push({ debtor, pay, receiver: target})
-      currBills[debtor] = 0;
-      currBills[target] = NP.plus(currBills[target], pay);
+      if(debtor !== target) {
+        const pay = currBills[debtor];
+        lastBills.push({ debtor, pay, receiver: target})
+        currBills[debtor] = 0;
+        currBills[target] = NP.plus(currBills[target], pay);
+      }
     })
-    debtors.push(target)
+    if(!debtors.includes(target)) {
+      debtors.push(target)
+    }
   }
 
   while(receivers.length) {
